@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,9 @@ using Random = UnityEngine.Random;
 
 public class GameLogic : MonoBehaviour
 {
+    public TextMeshProUGUI firstPlayerText;
+    public TextMeshProUGUI secondPlayerText;
+
     public float interval = 1f;
     private float lastInterval = 0f;
 
@@ -45,11 +49,13 @@ public class GameLogic : MonoBehaviour
         if (t1Health <= 0)
         {
             t1Animator.SetBool("Died", true);
+            t1Health = 0;
         }
 
         if (t2Health <= 0)
         {
             t2Animator.SetBool("Died", true);
+            t2Health = 0;
         }
         
         if (Vector3.Distance(t1Target.transform.position, t2Target.transform.position) < attackDistance)
@@ -68,8 +74,8 @@ public class GameLogic : MonoBehaviour
                     return;
                 }
                 
-                float attackDamageT1 = Random.Range(2, 10);
-                float attackDamageT2 = Random.Range(2, 10);
+                float attackDamageT1 = Random.Range(2, 20);
+                float attackDamageT2 = Random.Range(2, 20);
 
                 if(t1Health > 0)
                     t1Health -= attackDamageT2;
@@ -79,6 +85,9 @@ public class GameLogic : MonoBehaviour
 
                 t1HealthBar.value = 1 - t1Health / 100f;
                 t2HealthBar.value = 1 - t2Health / 100f;
+
+                firstPlayerText.text = $"HP: {t1Health}";
+                secondPlayerText.text = $"HP: {t2Health}";
 
                 lastInterval = 0f;
             }
